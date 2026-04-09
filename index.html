@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transport Management System</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <h1>Transport Management System</h1>
+      <p>Smart dashboard for vehicles, drivers, routes and trips</p>
+    </div>
+
+    <button id="menuToggle" class="menu-toggle" aria-label="Toggle navigation">☰</button>
+
+    <nav id="mainNav" class="main-nav">
+      <a href="#dashboard" class="nav-link active">Dashboard</a>
+      <a href="#vehicles" class="nav-link">Vehicles</a>
+      <a href="#drivers" class="nav-link">Drivers</a>
+      <a href="#routes" class="nav-link">Routes</a>
+      <a href="#trips" class="nav-link">Trips</a>
+      <a href="#reports" class="nav-link">Reports</a>
+    </nav>
+
+    <button id="themeToggle" class="theme-toggle" type="button">🌙 Dark</button>
+  </header>
+
+  <main class="container">
+    <!-- Dashboard -->
+    <section id="dashboard" class="section active-section">
+      <h2>Dashboard</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Total Vehicles</h3>
+          <p id="totalVehicles">0</p>
+        </article>
+        <article class="card">
+          <h3>Total Drivers</h3>
+          <p id="totalDrivers">0</p>
+        </article>
+        <article class="card">
+          <h3>Active Trips</h3>
+          <p id="activeTrips">0</p>
+        </article>
+        <article class="card">
+          <h3>Completed Trips</h3>
+          <p id="completedTrips">0</p>
+        </article>
+      </div>
+
+      <div class="chart-wrap">
+        <h3>Trip Status Chart</h3>
+        <div class="simple-chart">
+          <div class="bar-group">
+            <div id="chartActive" class="bar active-bar" style="height: 0%"></div>
+            <span>Active</span>
+          </div>
+          <div class="bar-group">
+            <div id="chartCompleted" class="bar completed-bar" style="height: 0%"></div>
+            <span>Completed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vehicles -->
+    <section id="vehicles" class="section">
+      <h2>Vehicle Management</h2>
+      <form id="vehicleForm" class="form-grid">
+        <input type="text" id="vehicleNumber" placeholder="Vehicle Number" required />
+        <select id="vehicleType" required>
+          <option value="">Select Vehicle Type</option>
+          <option>Bus</option>
+          <option>Van</option>
+          <option>Truck</option>
+        </select>
+        <input type="number" id="vehicleCapacity" placeholder="Capacity" min="1" required />
+        <select id="vehicleStatus" required>
+          <option value="">Select Status</option>
+          <option>Available</option>
+          <option>On Trip</option>
+        </select>
+        <button type="submit">Add Vehicle</button>
+      </form>
+
+      <div class="table-tools">
+        <input type="text" id="vehicleSearch" placeholder="Search vehicles..." />
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Vehicle Number</th>
+              <th>Type</th>
+              <th>Capacity</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="vehicleTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Drivers -->
+    <section id="drivers" class="section">
+      <h2>Driver Management</h2>
+      <form id="driverForm" class="form-grid">
+        <input type="text" id="driverName" placeholder="Driver Name" required />
+        <input type="text" id="licenseNumber" placeholder="License Number" required />
+        <input type="tel" id="phoneNumber" placeholder="Phone Number" required />
+        <select id="assignedVehicle" required>
+          <option value="">Select Assigned Vehicle</option>
+        </select>
+        <button type="submit">Add Driver</button>
+      </form>
+
+      <div class="table-tools">
+        <input type="text" id="driverSearch" placeholder="Search drivers..." />
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>License</th>
+              <th>Phone</th>
+              <th>Assigned Vehicle</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="driverTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Routes -->
+    <section id="routes" class="section">
+      <h2>Route Management</h2>
+      <form id="routeForm" class="form-grid">
+        <input type="text" id="routeId" placeholder="Route ID" required />
+        <input type="text" id="source" placeholder="Source" required />
+        <input type="text" id="destination" placeholder="Destination" required />
+        <input type="number" id="distance" placeholder="Distance (KM)" min="1" required />
+        <button type="submit">Add Route</button>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Route ID</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Distance (KM)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="routeTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Trips -->
+    <section id="trips" class="section">
+      <h2>Trip Management</h2>
+      <form id="tripForm" class="form-grid">
+        <input type="text" id="tripId" placeholder="Trip ID" required />
+        <select id="tripVehicle" required>
+          <option value="">Select Vehicle</option>
+        </select>
+        <select id="tripDriver" required>
+          <option value="">Select Driver</option>
+        </select>
+        <select id="tripRoute" required>
+          <option value="">Select Route</option>
+        </select>
+        <input type="datetime-local" id="startTime" required />
+        <input type="datetime-local" id="endTime" required />
+        <select id="tripStatus" required>
+          <option value="">Select Status</option>
+          <option>Active</option>
+          <option>Completed</option>
+        </select>
+        <button type="submit">Add Trip</button>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Trip ID</th>
+              <th>Vehicle</th>
+              <th>Driver</th>
+              <th>Route</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tripTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Reports -->
+    <section id="reports" class="section">
+      <h2>Reports</h2>
+      <div class="report-cards">
+        <article class="card small">
+          <h3>Total Trips</h3>
+          <p id="reportTotalTrips">0</p>
+        </article>
+        <article class="card small">
+          <h3>Active Trips</h3>
+          <p id="reportActiveTrips">0</p>
+        </article>
+        <article class="card small">
+          <h3>Completed Trips</h3>
+          <p id="reportCompletedTrips">0</p>
+        </article>
+      </div>
+
+      <div class="filters">
+        <select id="filterVehicle"><option value="">Filter by Vehicle</option></select>
+        <select id="filterDriver"><option value="">Filter by Driver</option></select>
+        <select id="filterStatus">
+          <option value="">Filter by Status</option>
+          <option>Active</option>
+          <option>Completed</option>
+        </select>
+        <button id="resetFilters" type="button">Reset Filters</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Trip ID</th>
+              <th>Vehicle</th>
+              <th>Driver</th>
+              <th>Route</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="reportTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
